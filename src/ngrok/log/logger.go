@@ -20,7 +20,7 @@ func LogTo(target string, level_name string) {
 	}
 
 	if writer != nil {
-		var level = log.DEBUG
+		level := log.DEBUG
 
 		switch level_name {
 		case "FINEST":

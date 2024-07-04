@@ -2,15 +2,15 @@ package server
 
 import (
 	"crypto/tls"
-	"io/ioutil"
 	"ngrok/server/assets"
+	"os"
 )
 
 func LoadTLSConfig(crtPath string, keyPath string) (tlsConfig *tls.Config, err error) {
 	fileOrAsset := func(path string, default_path string) ([]byte, error) {
-		loadFn := ioutil.ReadFile
+		loadFn := os.ReadFile
 		if path == "" {
-			loadFn = assets.Asset
+			loadFn = assets.Fs.ReadFile
 			path = default_path
 		}
 
@@ -23,11 +23,11 @@ func LoadTLSConfig(crtPath string, keyPath string) (tlsConfig *tls.Config, err e
 		cert tls.Certificate
 	)
 
-	if crt, err = fileOrAsset(crtPath, "assets/server/tls/snakeoil.crt"); err != nil {
+	if crt, err = fileOrAsset(crtPath, "tls/snakeoil.crt"); err != nil {
 		return
 	}
 
-	if key, err = fileOrAsset(keyPath, "assets/server/tls/snakeoil.key"); err != nil {
+	if key, err = fileOrAsset(keyPath, "tls/snakeoil.key"); err != nil {
 		return
 	}
 
